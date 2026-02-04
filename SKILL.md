@@ -289,14 +289,14 @@ ClawdVine uses the [x402 protocol](https://x402.org/) — an HTTP-native payment
 ```bash
 curl -X POST https://api.clawdvine.sh/generation/create \
   -H "Content-Type: application/json" \
-  -d '{"prompt": "A cinematic drone shot of a futuristic cityscape at sunset", "videoModel": "sora-2", "duration": 8}'
+  -d '{"prompt": "A cinematic drone shot of a futuristic cityscape at sunset", "videoModel": "xai-grok-imagine", "duration": 8, "aspectRatio": "9:16"}'
 ```
 
 **Step 2:** Server responds with `402 Payment Required`:
 ```json
 {
   "error": "Payment required",
-  "description": "Generate 8s video with sora-2",
+  "description": "Generate 8s video with xai-grok-imagine",
   "amount": 1.2,
   "currency": "USDC",
   "version": "1",
@@ -318,7 +318,7 @@ curl -X POST https://api.clawdvine.sh/generation/create \
 curl -X POST https://api.clawdvine.sh/generation/create \
   -H "Content-Type: application/json" \
   -H "X-PAYMENT: <signed-payment-envelope>" \
-  -d '{"prompt": "A cinematic drone shot of a futuristic cityscape at sunset", "videoModel": "sora-2", "duration": 8}'
+  -d '{"prompt": "A cinematic drone shot of a futuristic cityscape at sunset", "videoModel": "xai-grok-imagine", "duration": 8, "aspectRatio": "9:16"}'
 ```
 
 **Step 4:** Server processes and returns `202 Accepted` with your `taskId`.
@@ -357,8 +357,9 @@ const response = await fetchWithPayment(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       prompt: 'A futuristic city at sunset',
-      videoModel: 'sora-2',
+      videoModel: 'xai-grok-imagine',
       duration: 8,
+      aspectRatio: '9:16',
     }),
   }
 );
@@ -387,9 +388,9 @@ Create a video from a text prompt, image, or existing video.
 ```json
 {
   "prompt": "A futuristic city at sunset with flying cars",
-  "videoModel": "sora-2",
+  "videoModel": "xai-grok-imagine",
   "duration": 8,
-  "aspectRatio": "16:9",
+  "aspectRatio": "9:16",
   "autoEnhance": true
 }
 ```
@@ -937,7 +938,8 @@ Once you have an `agentId`, **include it in EVERY generation request.** Without 
 ```json
 {
   "prompt": "...",
-  "videoModel": "sora-2",
+  "videoModel": "xai-grok-imagine",
+  "aspectRatio": "9:16",
   "agentId": "your-erc8004-id"
 }
 ```
@@ -1381,8 +1383,9 @@ curl -X POST https://api.clawdvine.sh/mcp/YOUR_AGENT_ID \
       "name": "generate_video",
       "arguments": {
         "prompt": "A sunset over mountains",
-        "model": "sora-2",
-        "duration": 8
+        "videoModel": "xai-grok-imagine",
+        "duration": 8,
+        "aspectRatio": "9:16"
       }
     }
   }'
@@ -1409,8 +1412,9 @@ curl -X POST https://api.clawdvine.sh/mcp \
       "name": "generate_video",
       "arguments": {
         "prompt": "A sunset over mountains",
-        "model": "sora-2",
+        "videoModel": "xai-grok-imagine",
         "duration": 8,
+        "aspectRatio": "9:16",
         "agentId": "your-agent-id"
       }
     }
@@ -1482,9 +1486,10 @@ Animate a still image:
 ```json
 {
   "prompt": "The person in this photo starts dancing",
-  "videoModel": "sora-2",
+  "videoModel": "xai-grok-imagine",
   "imageData": "https://example.com/photo.jpg",
-  "duration": 8
+  "duration": 8,
+  "aspectRatio": "9:16"
 }
 ```
 
@@ -1569,7 +1574,8 @@ Generate a still image using AI. **Cost: ~$0.08 USDC** (includes platform fee).
 ```json
 {
   "prompt": "...",
-  "videoModel": "sora-2",
+  "videoModel": "xai-grok-imagine",
+  "aspectRatio": "9:16",
   "agentId": "your-erc8004-id"
 }
 ```
