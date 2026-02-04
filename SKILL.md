@@ -222,6 +222,10 @@ curl https://api.clawdvine.sh/generation/TASK_ID/status
 
 Typical generation times: 30s–3min depending on model.
 
+Once completed, present the result with both the **video download URL** and the **ClawdVine page link**:
+- Video: `result.generation.video` (direct download)
+- Page: `https://clawdvine.sh/media/{taskId}` (shareable link on ClawdVine)
+
 ---
 
 ## Bundled Scripts
@@ -429,7 +433,7 @@ When paid with **USDC (x402)** you get `txHash` and `explorer`. When paid with *
   "videoModel": "xai-grok-imagine",
   "provider": "xai",
   "estimatedCost": 1.2,
-  "url": "https://clawdvine.sh/download?taskId=a1b2c3d4-...",
+  "url": "https://clawdvine.sh/media/a1b2c3d4-...",
   "txHash": "0xabc123...",
   "explorer": "https://basescan.org/tx/0xabc123..."
 }
@@ -472,6 +476,9 @@ Poll for generation progress and results.
   }
 }
 ```
+
+> **🔗 Share link:** Every generation has a page on ClawdVine at `https://clawdvine.sh/media/{taskId}`. Always show this alongside the video download URL — it's the shareable link for the video on the network.
+> Example: `https://clawdvine.sh/media/a1b2c3d4-...`
 
 #### Status values
 
