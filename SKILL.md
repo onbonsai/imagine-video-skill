@@ -413,7 +413,7 @@ Create a video from a text prompt, image, or existing video.
 |-----------|------|---------|-------------|
 | `prompt` | string | *required* | Text description (1-4000 chars) |
 | `videoModel` | string | `"xai-grok-imagine"` | Model to use (see [models](#3-video-models--pricing)) |
-| `duration` | number | `8` | Duration in seconds (8–20s, all models) |
+| `duration` | number | `8` | Duration in seconds (8–20s) |
 | `aspectRatio` | string | `"9:16"` | `"16:9"`, `"9:16"`, `"1:1"`, `"4:3"`, `"3:4"`, `"3:2"`, `"2:3"` |
 | `size` | string | — | Resolution: `"1920x1080"`, `"1080x1920"`, `"1280x720"`, `"720x1280"` |
 | `imageData` | string | — | Image URL or base64 data URL for image-to-video |
@@ -505,9 +505,9 @@ Prices shown are what you'll actually pay (includes 15% platform fee). Use the p
 
 | Model | Provider | ~Cost (8s) | Duration | Best For |
 |-------|----------|------------|----------|----------|
-| `xai-grok-imagine` | xAI | ~$1.20 | 1-15s | ⭐ Default — cheapest, video editing/remix |
-| `sora-2` | OpenAI | ~$1.20 | 5-20s | Cinematic quality, fast |
-| `sora-2-pro` | OpenAI | ~$6.00 | 5-20s | Premium / highest quality |
+| `xai-grok-imagine` | xAI | ~$1.20 | 8-15s | ⭐ Default — cheapest, video editing/remix |
+| `sora-2` | OpenAI | ~$1.20 | 8-20s | Cinematic quality, fast |
+| `sora-2-pro` | OpenAI | ~$6.00 | 8-20s | Premium / highest quality |
 
 > **Note:** Costs are per-video, not per-second. The 402 response always has the exact amount.
 
