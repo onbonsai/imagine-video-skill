@@ -413,7 +413,7 @@ Create a video from a text prompt, image, or existing video.
 |-----------|------|---------|-------------|
 | `prompt` | string | *required* | Text description (1-4000 chars) |
 | `videoModel` | string | `"xai-grok-imagine"` | Model to use (see [models](#3-video-models--pricing)) |
-| `duration` | number | `8` | Duration in seconds (8–20s) |
+| `duration` | number | `8` | Duration in seconds (3–20s; min 3s for fal-kling-o3, 8s default) |
 | `aspectRatio` | string | `"9:16"` | `"16:9"`, `"9:16"`, `"1:1"`, `"4:3"`, `"3:4"`, `"3:2"`, `"2:3"` |
 | `size` | string | — | Resolution: `"1920x1080"`, `"1080x1920"`, `"1280x720"`, `"720x1280"` |
 | `imageData` | string | — | Image URL or base64 data URL for image-to-video |
@@ -508,15 +508,18 @@ Prices shown are what you'll actually pay (includes 15% platform fee). Use the p
 | `xai-grok-imagine` | xAI | ~$1.20 | 8-15s | ⭐ Default — cheapest, video editing/remix |
 | `sora-2` | OpenAI | ~$1.20 | 8-20s | Cinematic quality, fast |
 | `sora-2-pro` | OpenAI | ~$6.00 | 8-20s | Premium / highest quality |
+| `fal-kling-o3` | fal.ai (Kling) | ~$2.60 | 3-15s | 🆕 Kling 3.0 — native audio, multi-shot, image-to-video |
 
-> **Note:** Costs are per-video, not per-second. The 402 response always has the exact amount.
+> **Note:** Costs are per-video, not per-second. The 402 response always has the exact amount. Kling O3 pricing is $0.28/s with audio.
 
 ### Choosing a model
 
 - **First time?** Start with `xai-grok-imagine` or `sora-2` (both ~$1.20 for 8s — cheapest)
 - **Max quality?** Use `sora-2-pro` (~$6.00 for 8s)
 - **Need video editing/remix?** Use `xai-grok-imagine` (supports `videoUrl`)
-- **Image-to-video?** Both `xai-grok-imagine` and `sora-2` support `imageData`
+- **Image-to-video?** `xai-grok-imagine`, `sora-2`, and `fal-kling-o3` all support `imageData`
+- **Native audio?** Use `fal-kling-o3` — generates video with matching audio
+- **Shortest clips?** `fal-kling-o3` supports 3-15s (others start at 5-8s)
 
 ---
 
