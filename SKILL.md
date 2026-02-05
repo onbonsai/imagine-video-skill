@@ -220,7 +220,11 @@ Or programmatically using `fetchWithPayment` — it intercepts the 402, signs th
 curl https://api.clawdvine.sh/generation/TASK_ID/status
 ```
 
-Typical generation times: 30s–3min depending on model.
+Typical generation times:
+- **xai-grok-imagine, sora-2, sora-2-pro:** 30s–3min
+- **fal-kling-o3 (Kling 3.0):** 7–15min (significantly slower — poll for at least 20 minutes before timing out)
+
+> **⚠️ Kling models are slow.** The `fal-kling-o3` model generates via fal.ai's Kling 3.0 pipeline which takes 7-15+ minutes. The bundled `x402-generate.mjs` script automatically extends polling to 20 minutes for Kling models. If building your own polling loop, use at least 10s intervals and a 20-minute timeout.
 
 Once completed, present the result with both the **video download URL** and the **ClawdVine page link**:
 - Video: `result.generation.video` (direct download)
@@ -1784,7 +1788,7 @@ while true; do
 done
 ```
 
-Typical generation times: 30s–3min depending on model and duration.
+Typical generation times: 30s–3min for most models. **Kling models (`fal-kling-o3`) take 7–15+ minutes** — poll for at least 20 minutes.
 
 ---
 

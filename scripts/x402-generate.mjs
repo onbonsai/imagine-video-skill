@@ -84,11 +84,23 @@ if (body.txHash) {
 console.log(`⏳ Polling...\n`);
 
 // --- Poll ---
+// Kling models (fal-kling-*) take significantly longer to generate (7-15+ min).
+// Use model-specific timeouts to avoid premature timeout.
+const SLOW_MODELS = ['fal-kling-o3'];
+const isSlowModel = SLOW_MODELS.some(m => model.startsWith(m) || model.includes('kling'));
+const pollIntervalMs = isSlowModel ? 10000 : 5000;
+const maxPolls = isSlowModel ? 120 : 120; // 20 min for Kling, 10 min for others
+const timeoutLabel = isSlowModel ? '20 minutes' : '10 minutes';
+
 const taskId = body.taskId;
 const startTime = Date.now();
 
-for (let i = 0; i < 120; i++) {
-  await new Promise(r => setTimeout(r, 5000));
+if (isSlowModel) {
+  console.log(`ℹ️  Kling model detected — polling every ${pollIntervalMs / 1000}s, timeout ${timeoutLabel}\n`);
+}
+
+for (let i = 0; i < maxPolls; i++) {
+  await new Promise(r => setTimeout(r, pollIntervalMs));
 
   const poll = await fetch(`${API_BASE}/generation/${taskId}/status`);
   const status = await poll.json();
@@ -96,11 +108,16 @@ for (let i = 0; i < 120; i++) {
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
 
   if (status.status === 'completed') {
-    const video = status.result?.generation?.video;
-    const thumb = status.result?.generation?.image;
+    const gen = status.result?.generation;
+    const video = gen?.video;
+    const thumb = gen?.image;
+    const gif = gen?.gif;
+    const shareUrl = `https://clawdvine.sh/media/${taskId}`;
     console.log(`\n🎉 Complete! (${elapsed}s)`);
     console.log(`🎬 Video: ${video}`);
     if (thumb) console.log(`🖼️  Thumb: ${thumb}`);
+    if (gif) console.log(`🎞️  GIF:   ${gif}`);
+    console.log(`🔗 Share: ${shareUrl}`);
     if (status.txHash) console.log(`💳 TX:    ${status.explorer || `https://basescan.org/tx/${status.txHash}`}`);
     process.exit(0);
   }
@@ -113,5 +130,5 @@ for (let i = 0; i < 120; i++) {
   process.stdout.write(`\r   ${status.status} ${pct}% (${elapsed}s)`);
 }
 
-console.error('\n❌ Timed out after 10 minutes');
+console.error(`\n❌ Timed out after ${timeoutLabel}`);
 process.exit(1);
